@@ -1,7 +1,7 @@
 from typing import Any, List, Dict, Optional, Union
 import asyncio
 import logging
-from mcp.server.fastmcp import FastMCP
+from fastmcp import FastMCP
 from sci_hub_search import search_paper_by_doi, search_paper_by_title, search_papers_by_keyword, download_paper
 
 # Setup logging
@@ -155,7 +155,9 @@ async def get_paper_metadata(doi: str) -> Dict[str, Any]:
     except Exception as e:
         return {"error": f"An error occurred while getting metadata: {str(e)}"}
 
-if __name__ == "__main__":
+def main():
     logging.info("Starting Sci-Hub MCP Server")
-    # Initialize and run the server
     mcp.run(transport='stdio')
+
+if __name__ == "__main__":
+    main()
