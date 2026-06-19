@@ -1,148 +1,182 @@
-# Sci-Hub MCP Server
+# scihub-mcp
 
-[![smithery badge](https://smithery.ai/badge/@JackKuo666/sci-hub-mcp-server)](https://smithery.ai/server/@JackKuo666/sci-hub-mcp-server)
+MCP server for searching and downloading academic papers via Sci-Hub, with metadata enrichment from CrossRef.
 
-🔍 Enable AI assistants to search, access, and analyze academic papers through Sci-Hub using a simple MCP interface.
+![Python](https://img.shields.io/badge/python-3.10+-blue)
+![License](https://img.shields.io/github/license/w8s/scihub-mcp)
 
-The Sci-Hub MCP Server provides a bridge between AI assistants and Sci-Hub's repository of academic literature through the Model Context Protocol (MCP). It allows AI models to search for scientific articles by DOI, title, or keywords, access their metadata, and download PDFs in a programmatic way.
+## Features
 
-## ✨ Core Features
+- 🔍 **Search by keyword, title, or DOI** — powered by CrossRef discovery
+- 📋 **Rich metadata** — title, authors, year, abstract, and venue returned automatically
+- 📄 **PDF retrieval** — fetches available PDFs across multiple Sci-Hub mirrors
+- ⚡ **Async throughout** — non-blocking tool calls via FastMCP
+- 🧩 **Clean package structure** — `src/` layout, PEP 8 compliant, no legacy cruft
 
-- 🔎 Paper Search by DOI: Find papers using their Digital Object Identifier ✅
-- 🔍 Paper Search by Title: Locate papers using their full or partial title ✅
-- 🔑 Paper Search by Keyword: Discover papers related to specific research areas ✅
-- 📊 Metadata Access: Retrieve detailed metadata for specific papers ✅
-- 📄 PDF Download: Download full-text PDF content when available ✅
-
-## 🚀 Quick Start
-
-### Prerequisites
-
-- Python 3.10+
-- FastMCP library
-
-### Installation
-
-1. Clone the repository:
-   ```
-   git clone https://github.com/JackKuo666/Sci-Hub-MCP-Server.git
-   cd Sci-Hub-MCP-Server
-   ```
-
-2. Install the required dependencies:
-   ```
-   pip install -r requirements.txt
-   ```
-
-## 📊 Usage
-
-Start the MCP server:
+## Quick Start
 
 ```bash
-python sci_hub_server.py
+# Install via uvx (recommended)
+uvx --from git+https://github.com/w8s/scihub-mcp scihub-mcp
 ```
 
-## Usage with Claude Desktop
-
-Add this configuration to your `claude_desktop_config.json`:
-
-(Mac OS)
+Add to your Claude Desktop config (`~/Library/Application Support/Claude/claude_desktop_config.json`):
 
 ```json
 {
   "mcpServers": {
-    "scihub": {
-      "command": "python",
-      "args": ["-m", "sci_hub_server.py"]
-      }
-  }
-}
-```
-
-(Windows version):
-
-```json
-{
-  "mcpServers": {
-    "scihub": {
-      "command": "C:\\Users\\YOUR\\PATH\\miniconda3\\envs\\mcp_server\\python.exe",
+    "sci-hub": {
+      "command": "uvx",
       "args": [
-        "D:\\code\\YOUR\\PATH\\Sci-Hub-MCP-Server\\sci_hub_server.py"
-      ],
-      "env": {},
-      "disabled": false,
-      "autoApprove": []
+        "--from",
+        "git+https://github.com/w8s/scihub-mcp",
+        "scihub-mcp"
+      ]
     }
   }
 }
 ```
 
-## 🛠 MCP Tools
+Restart Claude Desktop. The following tools will be available:
 
-The Sci-Hub MCP Server provides the following tools:
+- `search_scihub_by_keyword` — find papers by topic
+- `search_scihub_by_title` — resolve a title to a PDF
+- `search_scihub_by_doi` — look up a specific paper
+- `download_scihub_pdf` — save a PDF to disk
 
-1. `search_scihub_by_doi`: Search for a paper on Sci-Hub using its DOI (Digital Object Identifier).
-2. `search_scihub_by_title`: Search for a paper on Sci-Hub using its title.
-3. `search_scihub_by_keyword`: Search for papers on Sci-Hub using a keyword.
-4. `download_scihub_pdf`: Download a paper PDF from Sci-Hub.
-5. `get_paper_metadata`: Get metadata information for a paper using its DOI.
+## Installation
 
-### Searching Papers by DOI
-
-You can ask the AI assistant to search for papers using DOI:
-```
-Can you search Sci-Hub for the paper with DOI 10.1038/nature09492?
-```
-
-### Searching Papers by Title
-
-You can search for papers using their title:
-```
-Can you find the paper titled "Choosing Assessment Instruments for Posttraumatic Stress Disorder Screening and Outcome Research" on Sci-Hub?
-```
-
-### Searching Papers by Keyword
-
-You can search for papers related to specific keywords:
-```
-Can you search Sci-Hub for recent papers about artificial intelligence in medicine?
-```
-
-### Downloading Papers
-
-Once you have found a paper, you can download it:
-```
-Can you download the PDF for this paper to my_paper.pdf?
-```
-
-### Getting Paper Metadata
-
-You can request metadata for a paper using its DOI:
-```
-Can you show me the metadata for the paper with DOI 10.1038/nature09492?
-```
-
-## 📁 Project Structure
-
-- `sci_hub_server.py`: The main MCP server implementation using FastMCP
-- `sci_hub_search.py`: Contains the logic for searching Sci-Hub and retrieving paper information
-
-## 🔧 Dependencies
+### Requirements
 
 - Python 3.10+
-- FastMCP
-- requests
-- bs4
-- scihub
+- [`uv`](https://docs.astral.sh/uv/) or `pip`
+- Claude Desktop (or any MCP-compatible client)
 
-## 🤝 Contributing
+### Via uvx (recommended — no local install needed)
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+```bash
+uvx --from git+https://github.com/w8s/scihub-mcp scihub-mcp
+```
 
-## 📄 License
+### Via pip (local install)
 
-This project is licensed under the MIT License.
+```bash
+pip install git+https://github.com/w8s/scihub-mcp
+```
 
-## ⚠️ Disclaimer
+### Local development
 
-This tool is for research purposes only. Please respect copyright laws and use this tool responsibly. The authors do not endorse or encourage any copyright infringement.
+```bash
+git clone https://github.com/w8s/scihub-mcp
+cd scihub-mcp
+uv venv --python 3.12
+uv pip install -e . --only-binary cryptography
+```
+
+Point your Claude Desktop config at the local server:
+
+```json
+{
+  "mcpServers": {
+    "sci-hub": {
+      "command": "/path/to/scihub-mcp/.venv/bin/python3",
+      "args": ["/path/to/scihub-mcp/src/scihub_mcp/server.py"]
+    }
+  }
+}
+```
+
+## Usage
+
+### Search by keyword
+
+```
+search_scihub_by_keyword("dopamine ADHD executive function", num_results=5)
+```
+
+Returns: list of papers with `title`, `author`, `year`, `abstract`, `venue`, `doi`, `pdf_url`, `mirror`, `status`.
+
+### Search by title
+
+```
+search_scihub_by_title("Attention and Effort")
+```
+
+Resolves the title via CrossRef, then retrieves from Sci-Hub. Returns same fields as keyword search.
+
+### Search by DOI
+
+```
+search_scihub_by_doi("10.1038/nature09492")
+```
+
+Direct lookup. Fastest when you already have the DOI.
+
+### Download a PDF
+
+```
+download_scihub_pdf(
+  pdf_url="https://sci.bban.top/pdf/10.1038/nature09492.pdf",
+  output_path="/Users/you/papers/nature09492.pdf"
+)
+```
+
+`pdf_url` comes from any of the search tools above.
+
+## Configuration
+
+No environment variables required. The server uses public CrossRef and Sci-Hub mirror endpoints by default.
+
+**Sci-Hub mirrors** (tried in order, first success wins):
+
+```
+https://sci-hub.hkvisa.net
+https://sci-hub.mksa.top
+https://sci-hub.ren
+https://sci-hub.se
+https://sci-hub.st
+https://sci-hub.ee
+```
+
+Mirror availability varies. If searches return empty results, the DOI may not be available on current mirrors — try a different paper or check mirror status manually.
+
+## Project Structure
+
+```
+scihub-mcp/
+├── src/
+│   └── scihub_mcp/
+│       ├── __init__.py   # version
+│       ├── server.py     # MCP tool definitions (FastMCP)
+│       └── search.py     # CrossRef + Sci-Hub retrieval logic
+├── pyproject.toml
+└── README.md
+```
+
+## Limitations
+
+- **Coverage**: Sci-Hub mirrors do not host every paper. Older, highly-cited papers have the best availability.
+- **Abstracts**: CrossRef does not provide abstracts for all records. Newer structured metadata is more complete.
+- **Mirror stability**: Sci-Hub mirrors change over time. If all mirrors fail, the tool returns `status: not_found`.
+- **Legal**: Access to Sci-Hub may be restricted or illegal in some jurisdictions. Use responsibly and in accordance with local law.
+
+## Contributing
+
+Issues and PRs welcome. Please:
+
+1. Follow the existing code style (`src/` layout, PEP 8, double quotes, type hints)
+2. Keep `search.py` and `server.py` separated — logic vs. MCP interface
+3. Test against at least one known-good DOI before submitting
+
+## Acknowledgments
+
+Inspired by and forked from:
+
+- [JackKuo666/Sci-Hub-MCP-Server](https://github.com/JackKuo666/Sci-Hub-MCP-Server) — original MCP server concept
+- [JackKuo666/Sci-Hub-MCP-Server](https://github.com/JackKuo666/Sci-Hub-MCP-Server) (alternate fork) — additional reference
+
+This version rewrites the metadata layer, adds CrossRef enrichment (title, author, year, abstract, venue), adopts a `src/` package structure, removes unused dependencies, and fixes the missing `main()` entry point that prevented uvx installation.
+
+## License
+
+MIT
