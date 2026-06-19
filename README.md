@@ -15,11 +15,6 @@ MCP server for searching and downloading academic papers via Sci-Hub, with metad
 
 ## Quick Start
 
-```bash
-# Install via uvx (recommended)
-uvx --from git+https://github.com/w8s/scihub-mcp scihub-mcp
-```
-
 Add to your Claude Desktop config (`~/Library/Application Support/Claude/claude_desktop_config.json`):
 
 ```json
@@ -27,11 +22,7 @@ Add to your Claude Desktop config (`~/Library/Application Support/Claude/claude_
   "mcpServers": {
     "sci-hub": {
       "command": "uvx",
-      "args": [
-        "--from",
-        "git+https://github.com/w8s/scihub-mcp",
-        "scihub-mcp"
-      ]
+      "args": ["scihub-mcp"]
     }
   }
 }
@@ -55,13 +46,13 @@ Restart Claude Desktop. The following tools will be available:
 ### Via uvx (recommended — no local install needed)
 
 ```bash
-uvx --from git+https://github.com/w8s/scihub-mcp scihub-mcp
+uvx scihub-mcp
 ```
 
-### Via pip (local install)
+### Via pip
 
 ```bash
-pip install git+https://github.com/w8s/scihub-mcp
+pip install scihub-mcp
 ```
 
 ### Local development
@@ -170,12 +161,11 @@ Issues and PRs welcome. Please:
 
 ## Acknowledgments
 
-Inspired by and forked from:
+The core Sci-Hub scraping logic (`_extract_pdf_url`, `_fetch_from_scihub`, mirror failover) is derived from [CyberKrypton/Sci-Hub-MCP-Server](https://github.com/CyberKrypton/Sci-Hub-MCP-Server), which replaced the broken `scihub` PyPI package with direct `requests` + `BeautifulSoup` parsing.
 
-- [JackKuo666/Sci-Hub-MCP-Server](https://github.com/JackKuo666/Sci-Hub-MCP-Server) — original MCP server concept
-- [JackKuo666/Sci-Hub-MCP-Server](https://github.com/JackKuo666/Sci-Hub-MCP-Server) (alternate fork) — additional reference
+Also inspired by [JackKuo666/Sci-Hub-MCP-Server](https://github.com/JackKuo666/Sci-Hub-MCP-Server), the original MCP server in this space.
 
-This version rewrites the metadata layer, adds CrossRef enrichment (title, author, year, abstract, venue), adopts a `src/` package structure, removes unused dependencies, and fixes the missing `main()` entry point that prevented uvx installation.
+This fork adds CrossRef metadata enrichment (title, author, year, abstract, venue), a `src/` package structure for proper uvx compatibility, and fixes the missing `main()` entry point.
 
 ## License
 
