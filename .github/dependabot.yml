@@ -1,0 +1,26 @@
+version: 2
+updates:
+  # Python dependencies
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    groups:
+      mcp-core:
+        patterns:
+          - "fastmcp"
+          - "mcp"
+      http-stack:
+        patterns:
+          - "requests"
+          - "beautifulsoup4"
+
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
