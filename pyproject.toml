@@ -3,6 +3,7 @@ name = "scihub-mcp"
 version = "0.3.0"
 description = "MCP server for searching and downloading academic papers via Sci-Hub, with CrossRef metadata enrichment"
 readme = "README.md"
+license = { text = "MIT" }
 requires-python = ">=3.10"
 dependencies = [
     "requests>=2.31.0",
