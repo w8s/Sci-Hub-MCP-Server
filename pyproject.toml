@@ -1,15 +1,31 @@
 [project]
 name = "scihub-mcp"
-version = "0.3.0"
+version = "0.4.0"
 description = "MCP server for searching and downloading academic papers via Sci-Hub, with CrossRef metadata enrichment"
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.10"
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Internet :: WWW/HTTP",
+]
 dependencies = [
     "requests>=2.31.0",
+    "urllib3>=2.0.0",
     "beautifulsoup4>=4.12.0",
     "fastmcp>=3.0.0",
 ]
+
+[project.urls]
+Homepage = "https://github.com/w8s/scihub-mcp"
+Repository = "https://github.com/w8s/scihub-mcp"
+Changelog = "https://github.com/w8s/scihub-mcp/blob/main/CHANGELOG.md"
+Issues = "https://github.com/w8s/scihub-mcp/issues"
 
 [project.scripts]
 scihub-mcp = "scihub_mcp.server:main"
